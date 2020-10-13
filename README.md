@@ -1,1 +1,34 @@
 # techradar
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: techradar-deployment
+spec:
+  selector:
+    matchLabels:
+      app: techradar
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: techradar
+    spec:
+      containers:
+      - name: techradar
+        image: wwwthoughtworks/build-your-own-radar
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techradar
+  labels:
+    app: techradar
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      nodePort: 32771
+  selector:
+    app: techradar
